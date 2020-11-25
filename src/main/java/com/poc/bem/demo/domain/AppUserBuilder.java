@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 public class AppUserBuilder {
-    private int id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -21,7 +21,6 @@ public class AppUserBuilder {
     private Timestamp modifyTimestamp;
     private String createUserId;
     private String modifyUserId;
-    private int version;
 
     public AppUserBuilder(@NonNull AppUser user) {
         this.id = user.getId();
@@ -36,10 +35,9 @@ public class AppUserBuilder {
         this.modifyTimestamp = user.getModifyTimestamp();
         this.createUserId = user.getCreateUserId();
         this.modifyUserId = user.getModifyUserId();
-        this.version = user.getVersion();
     }
 
-    public AppUserBuilder id(int id) {
+    public AppUserBuilder id(String id) {
         this.id = id;
         return this;
     }
@@ -96,11 +94,6 @@ public class AppUserBuilder {
 
     public AppUserBuilder modifyUserId(@NonNull String modifyUserId) {
         this.modifyUserId = modifyUserId;
-        return this;
-    }
-
-    public AppUserBuilder version(int version) {
-        this.version = version;
         return this;
     }
 

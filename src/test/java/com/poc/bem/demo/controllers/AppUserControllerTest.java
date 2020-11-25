@@ -23,13 +23,12 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 class AppUserControllerTest {
-    private static final int ID = 1;
+    private static final String ID = "1";
     private static final AppUser APP_USER = new AppUser().builder()
             .id(ID)
             .firstName("TEST")
@@ -63,14 +62,14 @@ class AppUserControllerTest {
 
     @Test
     void testGetUserByStatusCode() {
-        Mockito.when(mockDaoService.getBy(anyInt())).thenReturn(APP_USER);
+        Mockito.when(mockDaoService.getBy(anyString())).thenReturn(APP_USER);
         responseEntity = ResponseEntity.of(Optional.of(controller.getUserBy(ID)));
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     void testGetUserByRequestBody() {
-        Mockito.when(mockDaoService.getBy(anyInt())).thenReturn(APP_USER);
+        Mockito.when(mockDaoService.getBy(anyString())).thenReturn(APP_USER);
         responseEntity = ResponseEntity.of(Optional.of(controller.getUserBy(ID)));
         assertThat(responseEntity.getBody()).isInstanceOf(AppUserDTO.class);
     }
@@ -119,18 +118,18 @@ class AppUserControllerTest {
 
     @Test
     void testDeleteUserStatusCode() {
-        Mockito.doNothing().when(mockDaoService).deleteBy(anyInt());
+        Mockito.doNothing().when(mockDaoService).deleteBy(anyString());
         assertThat(controller.deleteUser(ID).getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     @Test
     void testDeleteUserRequestBodyWithValidID() {
-        Mockito.doNothing().when(mockDaoService).deleteBy(anyInt());
+        Mockito.doNothing().when(mockDaoService).deleteBy(anyString());
         assertNotNull(controller.deleteUser(ID));
     }
 
     @Test
     void testDeleteUserRequestBodyWithInvalidID() {
-        assertNotNull(controller.deleteUser(0));
+        assertNotNull(controller.deleteUser("0"));
     }
 }

@@ -33,7 +33,7 @@ public class AppUserController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get User", notes = "Retrieves a User")
-    public AppUserDTO getUserBy(@PathVariable int id) {
+    public AppUserDTO getUserBy(@PathVariable String id) {
         AppUser user = service.getBy(id);
         log.debug("Getting user #{}", user.getId());
         return new AppUserDTO(user);
@@ -57,10 +57,10 @@ public class AppUserController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Delete User", notes = "Deleters an existing User")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+    @ApiOperation(value = "Delete User", notes = "Deletes an existing User")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         log.debug("Received ID #{}", id);
-        if (id > 0) {
+        if (id != null && !id.isEmpty() && Integer.parseInt(id) > 0) {
             service.deleteBy(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }

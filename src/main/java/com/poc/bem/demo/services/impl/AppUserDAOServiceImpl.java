@@ -31,7 +31,7 @@ public class AppUserDAOServiceImpl implements AppUserDAOService {
     @Override
     public List<AppUser> listAll() {
         try {
-            return new ArrayList<>((Collection<? extends AppUser>) repository.findAll());
+            return new ArrayList<>(repository.findAll());
         } catch (DataAccessException e) {
             log.error("A DataAccessException occurred: ", e);
             throw e;
@@ -42,7 +42,7 @@ public class AppUserDAOServiceImpl implements AppUserDAOService {
     }
 
     @Override
-    public AppUser getBy(int id) {
+    public AppUser getBy(String id) {
         try {
             return verifyBy(id);
         } catch (DataAccessException e) {
@@ -127,7 +127,7 @@ public class AppUserDAOServiceImpl implements AppUserDAOService {
     }
 
     @Override
-    public void deleteBy(int id) {
+    public void deleteBy(String id) {
         try {
             AppUser found = verifyBy(id);
             repository.deleteById(found.getId());
@@ -140,9 +140,8 @@ public class AppUserDAOServiceImpl implements AppUserDAOService {
         }
     }
 
-    private AppUser verifyBy(int id) throws AppUserNotFoundException, IllegalArgumentException {
-        assert id > Integer.MIN_VALUE;
-        if (id > 0 && id < Integer.MAX_VALUE) {
+    private AppUser verifyBy(String id) throws AppUserNotFoundException, IllegalArgumentException {
+        if (id != null && !id.isEmpty() && Integer.parseInt(id) > 0) {
             var user = repository.findById(id).orElseThrow(AppUserNotFoundException::new);
             log.debug("Found user with ID #{}", user.getId());
             return user;

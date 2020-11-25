@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 class AppUserTest {
     private static final AppUser APP_USER = new AppUser().builder()
-            .id(1)
+            .id("1")
             .firstName("TEST")
             .lastName("USER")
             .email("test@email.com")
@@ -25,7 +25,6 @@ class AppUserTest {
             .modifyUserId("")
             .createTimestamp(Timestamp.from(Instant.now()))
             .modifyTimestamp(Timestamp.from(Instant.now().plusSeconds(5)))
-            .version(0)
             .build();
 
     @Test
@@ -53,8 +52,8 @@ class AppUserTest {
 
     @Test
     void testId() {
-        int unExpected = APP_USER.getId();
-        int actual = 0;
+        String unExpected = APP_USER.getId();
+        String actual = "0";
         assertNotEquals(unExpected, actual);
     }
 
@@ -132,13 +131,6 @@ class AppUserTest {
     void testModifyUserId() {
         String unExpected = APP_USER.getModifyUserId();
         String actual = "New Value";
-        assertNotEquals(unExpected, actual);
-    }
-
-    @Test
-    void testVersion() {
-        int unExpected = APP_USER.getVersion();
-        int actual = 1;
         assertNotEquals(unExpected, actual);
     }
 

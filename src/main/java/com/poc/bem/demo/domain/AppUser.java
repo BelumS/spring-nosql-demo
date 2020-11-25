@@ -4,60 +4,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "APP_USER", indexes = {
-        @Index(name = "IDX_EMAIL", columnList = "email"),
-        @Index(name = "IDX_PHONE", columnList = "phone")
-})
+@Document(collection = "users")
 @Getter
 @NoArgsConstructor
 @Slf4j
 public class AppUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Integer id;
+    private String id;
 
-    @Column(name = "first_name", nullable = false)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "email", unique = true)
+    @Indexed(name = "IDX_EMAIL", unique = true)
     private String email;
 
-    @Column(name = "phone", unique = true)
+    @Indexed(name = "IDX_PHONE", unique = true)
     private String phone;
 
-    @Column(name = "ip_address", unique = true)
     private String ipAddress;
-
-    @Column(name = "create_prog_id")
     private String createProgramId;
-
-    @Column(name = "modify_prog_id")
     private String modifyProgramId;
-
-    @Column(name = "create_ts")
     private Timestamp createTimestamp;
-
-    @Column(name = "modify_ts")
     private Timestamp modifyTimestamp;
-
-    @Column(name = "create_user_id")
     private String createUserId;
-
-    @Column(name = "modify_user_id")
     private String modifyUserId;
-
-    @Version
-    private Integer version;
 
     public AppUser(@NonNull AppUserBuilder builder) {
         this.id = builder.getId();
@@ -72,7 +49,6 @@ public class AppUser {
         this.modifyTimestamp = builder.getModifyTimestamp();
         this.createUserId = builder.getCreateUserId();
         this.modifyUserId = builder.getModifyUserId();
-        this.version = builder.getVersion();
     }
 
     public AppUser(@NonNull AppUser user) {
@@ -88,7 +64,6 @@ public class AppUser {
         this.modifyTimestamp = user.getModifyTimestamp();
         this.createUserId = user.getCreateUserId();
         this.modifyUserId = user.getModifyUserId();
-        this.version = user.getVersion();
     }
 
     public AppUser(@NonNull AppUserDTO user) {
@@ -104,7 +79,6 @@ public class AppUser {
         this.modifyTimestamp = user.getModifyTimestamp();
         this.createUserId = user.getCreateUserId();
         this.modifyUserId = user.getModifyUserId();
-        this.version = user.getVersion();
     }
 
     public AppUserBuilder builder() {
@@ -125,8 +99,7 @@ public class AppUser {
                 + "\"createTimestamp\": \"" + createTimestamp + "\","
                 + "\"modifyTimestamp\": \"" + modifyTimestamp + "\","
                 + "\"createUserId\": \"" + createUserId + "\","
-                + "\"modifyUserId\": \"" + modifyUserId + "\","
-                + "\"version\": \"" + version + "\""
+                + "\"modifyUserId\": \"" + modifyUserId + "\""
                 + "}";
     }
 }

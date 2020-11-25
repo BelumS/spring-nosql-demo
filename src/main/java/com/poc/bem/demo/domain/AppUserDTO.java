@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 public class AppUserDTO {
-    private int id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -40,9 +40,6 @@ public class AppUserDTO {
     @JsonIgnore
     private String modifyUserId;
 
-    @JsonIgnore
-    private int version;
-
     public AppUserDTO(@NonNull AppUser user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
@@ -56,7 +53,6 @@ public class AppUserDTO {
         this.modifyTimestamp = user.getModifyTimestamp();
         this.createUserId = user.getCreateUserId();
         this.modifyUserId = user.getModifyUserId();
-        this.version = user.getVersion();
     }
 
     @Override

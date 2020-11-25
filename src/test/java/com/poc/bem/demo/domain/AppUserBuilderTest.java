@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 class AppUserBuilderTest {
     private static final AppUser APP_USER = new AppUser().builder()
-            .id(1)
+            .id("1")
             .firstName("TEST")
             .lastName("USER")
             .email("test@email.com")
@@ -24,7 +24,6 @@ class AppUserBuilderTest {
             .modifyUserId("")
             .createTimestamp(Timestamp.from(Instant.now()))
             .modifyTimestamp(Timestamp.from(Instant.now().plusSeconds(5)))
-            .version(0)
             .build();
 
     private static final AppUserBuilder BUILDER = new AppUserBuilder(APP_USER);

@@ -23,13 +23,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class AppUserDAOServiceTest {
     private static final AppUser APP_USER = new AppUser().builder()
-            .id(1)
+            .id("1")
             .firstName("TEST")
             .lastName("USER")
             .email("test@email.com")
@@ -41,7 +40,6 @@ class AppUserDAOServiceTest {
             .modifyUserId("")
             .createTimestamp(Timestamp.from(Instant.now()))
             .modifyTimestamp(Timestamp.from(Instant.now().plusSeconds(5)))
-            .version(0)
             .build();
 
     private static final List<AppUser> APP_USER_LIST = Collections.singletonList(APP_USER);
@@ -85,26 +83,26 @@ class AppUserDAOServiceTest {
     @Test
     @DisplayName("getByID() where ID = 1")
     void testGetByIdEquals1() {
-        Mockito.when(mockRepository.findById(anyInt())).thenReturn(Optional.of(APP_USER));
-        assertNotNull(service.getBy(1));
+        Mockito.when(mockRepository.findById(anyString())).thenReturn(Optional.of(APP_USER));
+        assertNotNull(service.getBy("1"));
     }
 
     @Test
     void testGetByThrowsDataException() {
-        Mockito.when(mockRepository.findById(anyInt())).thenThrow(new RecoverableDataAccessException("TEST"));
-        assertThrows(DataAccessException.class, () -> service.getBy(1));
+        Mockito.when(mockRepository.findById(anyString())).thenThrow(new RecoverableDataAccessException("TEST"));
+        assertThrows(DataAccessException.class, () -> service.getBy("1"));
     }
 
     @Test
     void testGetByThrowsException() {
-        Mockito.when(mockRepository.findById(anyInt())).thenThrow(new NullPointerException());
-        assertThrows(Exception.class, () -> service.getBy(1));
+        Mockito.when(mockRepository.findById(anyString())).thenThrow(new NullPointerException());
+        assertThrows(Exception.class, () -> service.getBy("1"));
     }
 
     @Test
     @DisplayName("getByID() where ID = 0")
     void testGetByThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> service.getBy(0));
+        assertThrows(IllegalArgumentException.class, () -> service.getBy("0"));
     }
 
     @Test
@@ -144,14 +142,14 @@ class AppUserDAOServiceTest {
 
     @Test
     void testUpdate() {
-        Mockito.when(mockRepository.findById(anyInt())).thenReturn(Optional.of(APP_USER));
+        Mockito.when(mockRepository.findById(anyString())).thenReturn(Optional.of(APP_USER));
         Mockito.when(mockRepository.save(any(AppUser.class))).thenReturn(APP_USER);
         assertNotNull(service.update(APP_USER));
     }
 
     @Test
     void testUpdateThrowsDataException() {
-        Mockito.when(mockRepository.findById(anyInt())).thenThrow(new RecoverableDataAccessException("TEST"));
+        Mockito.when(mockRepository.findById(anyString())).thenThrow(new RecoverableDataAccessException("TEST"));
         assertThrows(DataAccessException.class, () -> service.update(APP_USER));
     }
 
@@ -162,20 +160,20 @@ class AppUserDAOServiceTest {
 
     @Test
     void testDeleteBy() {
-        Mockito.doNothing().when(mockRepository).deleteById(1);
-        Mockito.when(mockRepository.findById(anyInt())).thenReturn(Optional.of(APP_USER));
-        assertDoesNotThrow(() -> service.deleteBy(1));
+        Mockito.doNothing().when(mockRepository).deleteById("1");
+        Mockito.when(mockRepository.findById(anyString())).thenReturn(Optional.of(APP_USER));
+        assertDoesNotThrow(() -> service.deleteBy("1"));
     }
 
     @Test
     void testDeleteByThrowsDataException() {
-        Mockito.when(mockRepository.findById(anyInt())).thenThrow(new RecoverableDataAccessException("TEST"));
-        assertThrows(DataAccessException.class, () -> service.deleteBy(1));
+        Mockito.when(mockRepository.findById(anyString())).thenThrow(new RecoverableDataAccessException("TEST"));
+        assertThrows(DataAccessException.class, () -> service.deleteBy("1"));
     }
 
     @Test
     void testDeleteByThrowsException() {
-        assertThrows(Exception.class, () -> service.deleteBy(0));
+        assertThrows(Exception.class, () -> service.deleteBy("0"));
     }
 
 }

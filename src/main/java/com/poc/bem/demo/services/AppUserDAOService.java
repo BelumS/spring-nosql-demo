@@ -7,7 +7,7 @@ import java.util.List;
 public interface AppUserDAOService {
 
     List<AppUser> listAll();
-    AppUser getBy(int id);
+    AppUser getBy(String id);
 
     AppUser create(AppUser user);
 
@@ -15,5 +15,5 @@ public interface AppUserDAOService {
 
     AppUser update(AppUser user);
 
-    void deleteBy(int id);
+    void deleteBy(String id);
 }
